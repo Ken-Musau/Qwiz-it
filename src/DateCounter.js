@@ -25,9 +25,9 @@ function reducer(state, action) {
 }
 
 function DateCounter() {
-  const [state, dispatch] = useReducer(reducer, initalState);
+  const [{ count, step }, dispatch] = useReducer(reducer, initalState);
 
-  const { count, step } = state;
+  // const { count, step } = state;
 
   // This mutates the date object.
   const date = new Date("june 21 2027");
