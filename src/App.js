@@ -9,7 +9,14 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  console.log(state, action);
+  switch (action.type) {
+    case "dataReceived":
+      return { ...state, questions: action.payload, status: "ready" };
+    case "dataFailed":
+      return { ...state, status: "error" };
+    default:
+      throw new Error("action unkown");
+  }
 }
 
 export default function App() {
@@ -20,14 +27,20 @@ export default function App() {
       try {
         const resp = await fetch("http://127.0.0.1:8000/questions");
         const data = await resp.json();
-        console.log(data);
+
+        if (resp.ok) {
+          dispatch({ type: "dataReceived", payload: data });
+        } else {
+          dispatch({ type: "dataFailed" });
+        }
       } catch (err) {
-        throw new Error("Broken link");
+        console.error("Failed fetching data", err);
       }
     }
 
     fetchQuestions();
   }, []);
+
   return (
     <div className="app">
       <Header />
