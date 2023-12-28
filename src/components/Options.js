@@ -9,6 +9,7 @@ function Options({ question, dispatch, answer }) {
             }`}
             key={option}
             onClick={() => dispatch({ type: "newAnswer", payload: index })}
+            disabled={answer}
           >
             {option}
           </button>
