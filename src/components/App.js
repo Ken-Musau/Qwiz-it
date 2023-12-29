@@ -11,7 +11,7 @@ import FinishedScreen from "./FinishedScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
 
-const SECS_PER_QUESTION = 30;
+const SECS_PER_QUESTION = 10;
 
 const initialState = {
   questions: [],
@@ -52,7 +52,6 @@ function reducer(state, action) {
       return {
         ...state,
         status: "finished",
-        secondsRemaining: 5,
         highScore:
           state.points > state.highScore ? state.points : state.highScore,
       };
@@ -61,7 +60,7 @@ function reducer(state, action) {
         ...initialState,
         highScore: state.highScore,
         questions: state.questions,
-        status: "ready",
+        status: "active",
       };
     case "tick":
       return {
