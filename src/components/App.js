@@ -1,4 +1,3 @@
-import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
@@ -10,34 +9,21 @@ import Progress from "./Progress";
 import FinishedScreen from "./FinishedScreen";
 import Footer from "./Footer";
 import Timer from "./Timer";
+import { useQuiz } from "../context/QuizContext";
 
 export default function App() {
-  const [
-    { questions, status, index, answer, points, highScore, secondsRemaining },
+  const {
+    questions,
+    status,
+    index,
+    answer,
+    points,
+    highScore,
+    secondsRemaining,
     dispatch,
-  ] = useReducer(reducer, initialState);
-
-  const numQuestions = questions.length;
-  const maxPossiblePoints = questions.reduce((sum, cur) => sum + cur.points, 0);
-
-  useEffect(() => {
-    async function fetchQuestions() {
-      try {
-        const resp = await fetch("http://127.0.0.1:8000/questions");
-        const data = await resp.json();
-
-        if (resp.ok) {
-          dispatch({ type: "dataReceived", payload: data });
-        } else {
-          dispatch({ type: "dataFailed" });
-        }
-      } catch (err) {
-        console.error("Failed fetching data", err);
-      }
-    }
-
-    fetchQuestions();
-  }, []);
+    numQuestions,
+    maxPossiblePoints,
+  } = useQuiz();
 
   return (
     <div className="app">
@@ -45,9 +31,7 @@ export default function App() {
       <Main>
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
-        {status === "ready" && (
-          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
-        )}
+        {status === "ready" && <StartScreen />}
         {status === "active" && (
           <>
             <Progress
