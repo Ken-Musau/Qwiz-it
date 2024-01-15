@@ -44,14 +44,7 @@ export default function App() {
             </Footer>
           </>
         )}
-        {status === "finished" && (
-          <FinishedScreen
-            points={points}
-            maxPossiblePoints={maxPossiblePoints}
-            highScore={highScore}
-            dispatch={dispatch}
-          />
-        )}
+        {status === "finished" && <FinishedScreen />}
       </Main>
     </div>
   );
